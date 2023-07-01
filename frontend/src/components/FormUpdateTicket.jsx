@@ -3,10 +3,22 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from '../lib/axios';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    FormControl,
+    FormControlLabel,
+    FormLabel,
+    Radio,
+    RadioGroup,
+    TextField
+} from '@mui/material';
 
-const createTicket = async (data) => {
-    const response = await axios.post('/ticket', data);
+const updateTicket = async (data) => {
+    const response = await axios.put(`/ticket/edit/${data.id}`, data);
     return response.data;
 };
 
@@ -14,36 +26,38 @@ const validationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
     description: Yup.string().required('Description is required'),
     contact: Yup.string().required('Contact is required'),
+    status: Yup.string().required('Status is required'),
 });
 
-const FormCreateTicket = ({ onSuccess }) => {
+const FormUpdateTicket = (props) => {
     const queryClient = useQueryClient();
     const [open, setOpen] = useState(false);
 
     const { handleSubmit, handleChange, values, touched, errors, resetForm } = useFormik({
         initialValues: {
-            title: '',
-            description: '',
-            contact: '',
+            id: props.ticket.id,
+            title: props.ticket.title,
+            description: props.ticket.description,
+            contact: props.ticket.contact,
+            status: props.ticket.status,
         },
         validationSchema,
         onSubmit: (values, { resetForm }) => {
-            handleCreateTicket(values);
+            handleUpdateTicket(values);
             resetForm();
             handleClose();
         },
     });
 
-    const { isLoading, isError, error, mutate } = useMutation(createTicket, {
+    const { isLoading, isError, error, mutate } = useMutation(updateTicket, {
         retry: 3,
         onSuccess: () => {
             queryClient.invalidateQueries('ticket');
-            onSuccess();
             resetForm(); // Added line to reset the form after successful submission
         },
     });
 
-    const handleCreateTicket = (values) => {
+    const handleUpdateTicket = (values) => {
         mutate(values);
     };
 
@@ -58,10 +72,10 @@ const FormCreateTicket = ({ onSuccess }) => {
     return (
         <div>
             <Button variant="contained" color="primary" onClick={handleOpen}>
-                Create a ticket
+                Update ticket
             </Button>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Create a ticket</DialogTitle>
+                <DialogTitle>Edit ticket</DialogTitle>
                 <form onSubmit={handleSubmit}>
                     <DialogContent>
                         <TextField
@@ -100,13 +114,30 @@ const FormCreateTicket = ({ onSuccess }) => {
                             error={touched.contact && Boolean(errors.contact)}
                             helperText={touched.contact && errors.contact}
                         />
+                        <FormControl component="fieldset" margin="normal">
+                            <FormLabel component="legend">Status</FormLabel>
+                            <RadioGroup
+                                name="status"
+                                value={values.status}
+                                onChange={handleChange}
+                                error={touched.status && Boolean(errors.status)}
+                            >
+                                <FormControlLabel value="pending" control={<Radio />} label="Pending" />
+                                <FormControlLabel value="accepted" control={<Radio />} label="Accepted" />
+                                <FormControlLabel value="resolved" control={<Radio />} label="Resolved" />
+                                <FormControlLabel value="rejected" control={<Radio />} label="Rejected" />
+                            </RadioGroup>
+                            {touched.status && errors.status && (
+                                <div className="error">{errors.status}</div>
+                            )}
+                        </FormControl>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose} color="primary">
                             Cancel
                         </Button>
                         <Button type="submit" color="primary" disabled={isLoading}>
-                            {isLoading ? 'Saving...' : 'Create'}
+                            {isLoading ? 'Updating...' : 'Update'}
                         </Button>
                     </DialogActions>
                 </form>
@@ -116,4 +147,4 @@ const FormCreateTicket = ({ onSuccess }) => {
     );
 };
 
-export default FormCreateTicket;
+export default FormUpdateTicket;
