@@ -7,7 +7,12 @@ const StatusCol = ({ title, ticket, id }) => {
                 <h1>{title}</h1>
                 {ticket.map((ticket, index) => {
                     return (
-                        <TicketCard ticket={ticket} key={ticket.id} />
+                        <div style={{
+                            padding: 2
+                        }}>
+                            <TicketCard ticket={ticket} key={ticket.id} />
+                        </div>
+
                     );
                 })}
             </div>

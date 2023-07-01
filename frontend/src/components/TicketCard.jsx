@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Card, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import FormUpdateTicket from './FormUpdateTicket'
 const TicketCard = (props) => {
-    console.log(props)
     const [openDialog, setOpenDialog] = useState(false);
 
     const handleDialogOpen = () => {
@@ -17,7 +16,9 @@ const TicketCard = (props) => {
     return (
         <>
             <Card onClick={handleDialogOpen}>
-                <div>
+                <div style={{
+                    padding: 10
+                }}>
                     <h1>{props.ticket.title}</h1>
                     <h2>{props.ticket.contact}</h2>
                 </div>
