@@ -1,3 +1,5 @@
+// StatusCol.jsx
+
 import React from 'react'
 import TicketCard from './TicketCard'
 const StatusCol = ({ title, ticket, id }) => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { object, string } from "yup";
 import axios from '../lib/axios';
 import {
     Button,
@@ -22,18 +22,18 @@ const updateTicket = async (data) => {
     return response.data;
 };
 
-const validationSchema = Yup.object().shape({
-    title: Yup.string().required('Title is required'),
-    description: Yup.string().required('Description is required'),
-    contact: Yup.string().required('Contact is required'),
-    status: Yup.string().required('Status is required'),
+const validationSchema = object().shape({
+    title: string().required('Title is required'),
+    description: string().required('Description is required'),
+    contact: string().required('Contact is required'),
+    status: string().required('Status is required'),
 });
 
 const FormUpdateTicket = (props) => {
     const queryClient = useQueryClient();
     const [open, setOpen] = useState(false);
 
-    const { handleSubmit, handleChange, values, touched, errors, resetForm } = useFormik({
+    const formik = useFormik({
         initialValues: {
             id: props.ticket.id,
             title: props.ticket.title,
@@ -53,7 +53,7 @@ const FormUpdateTicket = (props) => {
         retry: 3,
         onSuccess: () => {
             queryClient.invalidateQueries('ticket');
-            resetForm(); // Added line to reset the form after successful submission
+            formik.resetForm(); // Reset the form after successful submission
         },
     });
 
@@ -76,7 +76,7 @@ const FormUpdateTicket = (props) => {
             </Button>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Edit ticket</DialogTitle>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={formik.handleSubmit}>
                     <DialogContent>
                         <TextField
                             autoFocus
@@ -85,10 +85,10 @@ const FormUpdateTicket = (props) => {
                             label="Title"
                             type="text"
                             fullWidth
-                            value={values.title}
-                            onChange={handleChange}
-                            error={touched.title && Boolean(errors.title)}
-                            helperText={touched.title && errors.title}
+                            value={formik.values.title}
+                            onChange={formik.handleChange}
+                            error={formik.touched.title && Boolean(formik.errors.title)}
+                            helperText={formik.touched.title && formik.errors.title}
                         />
                         <TextField
                             margin="dense"
@@ -98,10 +98,10 @@ const FormUpdateTicket = (props) => {
                             minRows={4}
                             maxRows={4}
                             fullWidth
-                            value={values.description}
-                            onChange={handleChange}
-                            error={touched.description && Boolean(errors.description)}
-                            helperText={touched.description && errors.description}
+                            value={formik.values.description}
+                            onChange={formik.handleChange}
+                            error={formik.touched.description && Boolean(formik.errors.description)}
+                            helperText={formik.touched.description && formik.errors.description}
                         />
                         <TextField
                             margin="dense"
@@ -109,26 +109,26 @@ const FormUpdateTicket = (props) => {
                             label="Contact"
                             type="text"
                             fullWidth
-                            value={values.contact}
-                            onChange={handleChange}
-                            error={touched.contact && Boolean(errors.contact)}
-                            helperText={touched.contact && errors.contact}
+                            value={formik.values.contact}
+                            onChange={formik.handleChange}
+                            error={formik.touched.contact && Boolean(formik.errors.contact)}
+                            helperText={formik.touched.contact && formik.errors.contact}
                         />
                         <FormControl component="fieldset" margin="normal">
                             <FormLabel component="legend">Status</FormLabel>
                             <RadioGroup
                                 name="status"
-                                value={values.status}
-                                onChange={handleChange}
-                                error={touched.status && Boolean(errors.status)}
+                                value={formik.values.status}
+                                onChange={formik.handleChange}
+                                error={Boolean(formik.touched.status && formik.errors.status)}
                             >
                                 <FormControlLabel value="pending" control={<Radio />} label="Pending" />
                                 <FormControlLabel value="accepted" control={<Radio />} label="Accepted" />
                                 <FormControlLabel value="resolved" control={<Radio />} label="Resolved" />
                                 <FormControlLabel value="rejected" control={<Radio />} label="Rejected" />
                             </RadioGroup>
-                            {touched.status && errors.status && (
-                                <div className="error">{errors.status}</div>
+                            {formik.touched.status && formik.errors.status && (
+                                <div className="error">{formik.errors.status}</div>
                             )}
                         </FormControl>
                     </DialogContent>
@@ -136,7 +136,7 @@ const FormUpdateTicket = (props) => {
                         <Button onClick={handleClose} color="primary">
                             Cancel
                         </Button>
-                        <Button type="submit" color="primary" disabled={isLoading}>
+                        <Button type="submit" color="primary" disabled={!formik.dirty || isLoading}>
                             {isLoading ? 'Updating...' : 'Update'}
                         </Button>
                     </DialogActions>
