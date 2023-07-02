@@ -1,8 +1,7 @@
-//TicketCard.jsx
-
 import React, { useState } from 'react';
 import { Card, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
-import FormUpdateTicket from './FormUpdateTicket'
+import FormUpdateTicket from './FormUpdateTicket';
+
 const TicketCard = (props) => {
     const [openDialog, setOpenDialog] = useState(false);
 
@@ -14,6 +13,17 @@ const TicketCard = (props) => {
         setOpenDialog(false);
     };
 
+    const formatDateTime = (dateTimeString) => {
+        const dateTime = new Date(dateTimeString);
+        const options = {
+            hour: '2-digit',
+            minute: '2-digit',
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit'
+        };
+        return dateTime.toLocaleString('en-GB', options);
+    };
 
     return (
         <>
@@ -51,20 +61,17 @@ const TicketCard = (props) => {
                         <p>{props.ticket.description}</p>
                         <h2>contact :</h2>
                         <p>{props.ticket.contact}</p>
-                        <h3>latest Update at : {props.ticket.latestUpdate ? props.ticket.latestUpdate : 'No update before'}</h3>
-                        <h3>create at : {props.ticket.createdAt}</h3>
+                        <h3>Latest Update at: {props.ticket.latestUpdate ? formatDateTime(props.ticket.latestUpdate) : 'No update before'}</h3>
+                        <h3>Create at: {formatDateTime(props.ticket.createdAt)}</h3>
                     </DialogContent>
                     <DialogActions style={{ padding: 5 }}>
                         <FormUpdateTicket ticket={props.ticket} />
-                        <Button style={{
-                            color: '#ff9770',
-                        }} onClick={handleDialogClose}>Close</Button>
-
+                        <Button style={{ color: '#ff9770' }} onClick={handleDialogClose}>Close</Button>
                     </DialogActions>
                 </div>
-
             </Dialog>
         </>
     );
-}
-export default TicketCard
+};
+
+export default TicketCard;
