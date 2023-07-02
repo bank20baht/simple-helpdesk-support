@@ -8,10 +8,10 @@ services:
       - 5432:5432
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: helpdesk
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres2-data:/var/lib/postgresql/data
     restart: unless-stopped
 
   pgadmin:
@@ -44,5 +44,5 @@ services:
       - "3000:3000"
 
 volumes:
-  postgres-data:
+  postgres2-data:
   pgadmin-data:
