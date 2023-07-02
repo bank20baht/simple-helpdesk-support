@@ -12,6 +12,7 @@ const router = express.Router();
  *       200:
  *         description: Success
  */
+
 router.get("/", getAllTicket);
 
 /**
@@ -19,10 +20,30 @@ router.get("/", getAllTicket);
  * /api/ticket:
  *   post:
  *     summary: Create a ticket
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               contact:
+ *                 type: string
+ *             required:
+ *               - title
+ *               - description
+ *               - contact
  *     responses:
- *       201:
- *         description: Ticket created
+ *       200:
+ *         description: Ticket created successfully
+ *       500:
+ *         description: Internal server error
  */
+
 router.post("/", createTicket);
 
 /**
@@ -37,10 +58,35 @@ router.post("/", createTicket);
  *         description: ID of the ticket to update
  *         schema:
  *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               contact:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *             required:
+ *               - title
+ *               - description
+ *               - contact
+ *               - status
  *     responses:
  *       200:
- *         description: Success
+ *         description: Ticket updated successfully
+ *       404:
+ *         description: Ticket not found
+ *       500:
+ *         description: Internal server error
  */
+
 router.put("/edit/:id", updateTicket);
 
 export default router;
