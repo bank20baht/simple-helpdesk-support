@@ -1,23 +1,19 @@
-# Use the official Node.js image as the base
-FROM node:14
+# add the Node.js docker image
+FROM node:16
 
-# Set the working directory in the container
+# Create directory that runs the app on docker
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the container
+# COPY package.json and package-lock.json files
+COPY package.json package-lock.json ./
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+RUN npm ci
 
-# Copy the rest of the frontend files to the container
 COPY . .
 
-# Build the frontend
 RUN npm run build
 
-# Expose port 3000 for the frontend
 EXPOSE 3000
 
-# Start the frontend server
-CMD ["npm", "run", "start"]
+CMD ["npx", "serve", "dist"]
