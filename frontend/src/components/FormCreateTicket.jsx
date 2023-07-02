@@ -57,59 +57,69 @@ const FormCreateTicket = ({ onSuccess }) => {
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleOpen}>
-                Create a ticket
-            </Button>
+            <div style={{
+                padding: 10,
+            }}>
+                <Button variant="contained" style={{ backgroundColor: '#79addc', color: 'white', border: `4px solid black` }} onClick={handleOpen}>
+                    Create a ticket
+                </Button>
+            </div>
+
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Create a ticket</DialogTitle>
-                <form onSubmit={handleSubmit}>
-                    <DialogContent>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            name="title"
-                            label="Title"
-                            type="text"
-                            fullWidth
-                            value={values.title}
-                            onChange={handleChange}
-                            error={touched.title && Boolean(errors.title)}
-                            helperText={touched.title && errors.title}
-                        />
-                        <TextField
-                            margin="dense"
-                            name="description"
-                            label="Description"
-                            multiline
-                            minRows={4}
-                            maxRows={4}
-                            fullWidth
-                            value={values.description}
-                            onChange={handleChange}
-                            error={touched.description && Boolean(errors.description)}
-                            helperText={touched.description && errors.description}
-                        />
-                        <TextField
-                            margin="dense"
-                            name="contact"
-                            label="Contact"
-                            type="text"
-                            fullWidth
-                            value={values.contact}
-                            onChange={handleChange}
-                            error={touched.contact && Boolean(errors.contact)}
-                            helperText={touched.contact && errors.contact}
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose} color="primary">
-                            Cancel
-                        </Button>
-                        <Button type="submit" color="primary" disabled={isLoading}>
-                            {isLoading ? 'Saving...' : 'Create'}
-                        </Button>
-                    </DialogActions>
-                </form>
+                <div style={{ border: `5px solid #79addc` }}>
+
+
+                    <DialogTitle style={{ textAlign: 'center', backgroundColor: '#79addc', color: 'white' }}>Create a ticket</DialogTitle>
+                    <form onSubmit={handleSubmit}>
+                        <DialogContent>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                name="title"
+                                label="Title"
+                                type="text"
+                                fullWidth
+                                value={values.title}
+                                onChange={handleChange}
+                                error={touched.title && Boolean(errors.title)}
+                                helperText={touched.title && errors.title}
+                            />
+                            <TextField
+                                margin="dense"
+                                name="description"
+                                label="Description"
+                                multiline
+                                minRows={4}
+                                maxRows={4}
+                                fullWidth
+                                value={values.description}
+                                onChange={handleChange}
+                                error={touched.description && Boolean(errors.description)}
+                                helperText={touched.description && errors.description}
+                            />
+                            <TextField
+                                margin="dense"
+                                name="contact"
+                                label="Contact"
+                                type="text"
+                                fullWidth
+                                value={values.contact}
+                                onChange={handleChange}
+                                error={touched.contact && Boolean(errors.contact)}
+                                helperText={touched.contact && errors.contact}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button type="submit" style={{ backgroundColor: '#79addc', color: 'white' }} disabled={isLoading}>
+                                {isLoading ? 'Saving...' : 'Create'}
+                            </Button>
+                            <Button onClick={handleClose} style={{ color: '#79addc' }}>
+                                Cancel
+                            </Button>
+
+                        </DialogActions>
+                    </form>
+                </div>
             </Dialog>
             <div>{isError && <div>{error.message}</div>}</div>
         </div>

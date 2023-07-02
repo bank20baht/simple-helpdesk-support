@@ -30,6 +30,7 @@ export const createTicket = async (req: TicketRequest, res: Response) => {
         description: description,
         contact: contact,
         status: "pending",
+        latestUpdate: new Date(),
       },
     });
     res.status(200).send({ message: "Ticket created successfully" });
