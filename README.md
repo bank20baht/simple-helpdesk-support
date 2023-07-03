@@ -17,6 +17,8 @@ npx prisma migrate dev
 
 # api docs
 if you run docker-compoose go to http://localhost:5000/docs/
+![image](https://github.com/bank20baht/simple-helpdesk-support/assets/89448778/760f60f2-7e82-4d78-a800-b7a13a0add85)
+
 
 # Tech Stacks and Libraries
 -  axios
