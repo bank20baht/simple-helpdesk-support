@@ -12,6 +12,8 @@ go to cli in backend image and add command
 ```
 npx prisma migrate dev
 ```
+![image](https://github.com/bank20baht/simple-helpdesk-support/assets/89448778/89d21afd-9a3c-4c88-b7c6-b769a7d1f13b)
+
 
 # api docs
 if you run docker-compoose go to http://localhost:5000/docs/
