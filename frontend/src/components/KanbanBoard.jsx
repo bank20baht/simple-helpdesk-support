@@ -53,9 +53,9 @@ const KanbanBoard = () => {
 
   // Apply sorting on the filteredTickets array
   if (selectedUpload === 'latestUpdate') {
-    filteredTickets.sort((a, b) => new Date(b.latestUpdate) - new Date(a.latestUpdate));
-  } else if (selectedUpload === 'firstUpdate') {
     filteredTickets.sort((a, b) => new Date(a.latestUpdate) - new Date(b.latestUpdate));
+  } else if (selectedUpload === 'firstUpdate') {
+    filteredTickets.sort((a, b) => new Date(b.latestUpdate) - new Date(a.latestUpdate));
   }
 
   const getColumnSize = (status) => {
