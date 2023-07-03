@@ -29,6 +29,7 @@ if you run docker-compoose go to http://localhost:5000/docs/
 -  docker
 -  compression
 -  swagger
+-  pino-pretty
 
 # Examples of pages in this project
 ![image](https://github.com/bank20baht/simple-helpdesk-support/assets/89448778/622e7e3d-61c3-4f12-8b9a-f2f4a9a7025e)
