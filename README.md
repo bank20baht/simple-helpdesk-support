@@ -5,7 +5,7 @@ simple helpdest web application SPA , kanbun board style
 ```
 git clone https://github.com/bank20baht/simple-helpdesk-support.git
 cd simple-helpdesk-support
-docker-compose up –build
+docker-compose up 
 ```
 
 go to cli in backend image and add command
