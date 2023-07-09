@@ -1,5 +1,6 @@
 import { getAllTicket, createTicket, updateTicket } from "../controller/ticket";
 import express, { Request, Response } from "express";
+import accessTokenValidate from "../middleware/accessTokenValidate";
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ const router = express.Router();
  *         description: Success
  */
 
-router.get("/", getAllTicket);
+router.get("/", accessTokenValidate, getAllTicket);
 
 /**
  * @swagger
@@ -44,11 +45,11 @@ router.get("/", getAllTicket);
  *         description: Internal server error
  */
 
-router.post("/", createTicket);
+router.post("/", accessTokenValidate, createTicket);
 
 /**
  * @swagger
- * /api/ticket/edit/{id}:
+ * /api/ticket/{id}:
  *   put:
  *     summary: Update a ticket
  *     parameters:
@@ -87,6 +88,6 @@ router.post("/", createTicket);
  *         description: Internal server error
  */
 
-router.put("/edit/:id", updateTicket);
+router.put("/:id", accessTokenValidate, updateTicket);
 
 export default router;

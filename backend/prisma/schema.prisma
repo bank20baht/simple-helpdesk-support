@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider      = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -11,11 +11,22 @@ datasource db {
 }
 
 model Ticket {
-  id        Int      @id @default(autoincrement())
-  title String 
-  description String
-  contact  String
-  createdAt DateTime @default(now())
-  latestUpdate DateTime?
-  status String
+  id            Int      @id @default(autoincrement())
+  title         String
+  description   String
+  createdAt     DateTime @default(now())
+  latestUpdate  DateTime?
+  status        String
+  userId        Int
+  createdBy     User     @relation("TicketCreator", fields: [userId], references: [id])
+}
+
+model User {
+  id            Int      @id @default(autoincrement())
+  username      String   @unique
+  password      String
+  createdAt     DateTime @default(now())
+  refreshtoken String?
+  role          String
+  createdTickets Ticket[] @relation("TicketCreator")
 }
