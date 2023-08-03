@@ -5,13 +5,15 @@ import axios from '../lib/axios';
 import FormCreateTicket from './FormCreateTicket';
 import StatusCol from './StatusCol';
 
+import useAxiosAuth from '../lib/hooks/useAxiosAuth';
+
 const KanbanBoard = () => {
   const queryClient = useQueryClient();
   const [selectedStatus, setSelectedStatus] = useState('all'); // State to store the selected status
   const [selectedUpload, setSelectedUpload] = useState('latestUpdate'); // State to store the selected upload
-
+  const axiosAuth = useAxiosAuth();
   const fetchTicket = async () => {
-    const response = await axios.get('/ticket');
+    const response = await axiosAuth.get('/ticket');
     return response.data;
   }
 

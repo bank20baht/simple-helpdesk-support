@@ -4,9 +4,10 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from '../lib/axios';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import useAxiosAuth from '../lib/hooks/useAxiosAuth';
 
-const createTicket = async (data) => {
-    const response = await axios.post('/ticket', data);
+const createTicket = async (axiosAuth, data) => {
+    const response = await axiosAuth.post('/ticket', data);
     return response.data;
 };
 
@@ -19,6 +20,8 @@ const validationSchema = Yup.object().shape({
 const FormCreateTicket = ({ onSuccess }) => {
     const queryClient = useQueryClient();
     const [open, setOpen] = useState(false);
+
+    const axiosAuth = useAxiosAuth(); // Call the hook here
 
     const { handleSubmit, handleChange, values, touched, errors, resetForm } = useFormik({
         initialValues: {
@@ -34,12 +37,12 @@ const FormCreateTicket = ({ onSuccess }) => {
         },
     });
 
-    const { isLoading, isError, error, mutate } = useMutation(createTicket, {
+    const { isLoading, isError, error, mutate } = useMutation((data) => createTicket(axiosAuth, data), {
         retry: 3,
         onSuccess: () => {
             queryClient.invalidateQueries('ticket');
             onSuccess();
-            resetForm(); // Added line to reset the form after successful submission
+            resetForm();
         },
     });
 
@@ -57,9 +60,7 @@ const FormCreateTicket = ({ onSuccess }) => {
 
     return (
         <div>
-            <div style={{
-                padding: 10,
-            }}>
+            <div style={{ padding: 10 }}>
                 <Button variant="contained" style={{ backgroundColor: '#79addc', color: 'white', border: `4px solid black` }} onClick={handleOpen}>
                     Create a ticket
                 </Button>
@@ -67,8 +68,6 @@ const FormCreateTicket = ({ onSuccess }) => {
 
             <Dialog open={open} onClose={handleClose}>
                 <div style={{ border: `5px solid #79addc` }}>
-
-
                     <DialogTitle style={{ textAlign: 'center', backgroundColor: '#79addc', color: 'white' }}>Create a ticket</DialogTitle>
                     <form onSubmit={handleSubmit}>
                         <DialogContent>
@@ -116,7 +115,6 @@ const FormCreateTicket = ({ onSuccess }) => {
                             <Button onClick={handleClose} style={{ color: '#79addc' }}>
                                 Cancel
                             </Button>
-
                         </DialogActions>
                     </form>
                 </div>

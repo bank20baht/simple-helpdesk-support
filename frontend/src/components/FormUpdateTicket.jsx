@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 
 const updateTicket = async (data) => {
-    const response = await axios.put(`/ticket/edit/${data.id}`, data);
+    const response = await axios.put(`/ticket/${data.id}`, data);
     return response.data;
 };
 

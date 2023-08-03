@@ -21,7 +21,6 @@ const Login = () => {
             .then((response) => {
                 // Store the JWT in localStorage
                 localStorage.setItem('token', JSON.stringify(response.data));
-                // Display success message
                 Swal.fire({
                     title: 'Success',
                     text: response.data.message,
@@ -30,10 +29,8 @@ const Login = () => {
                 }).then((value) => {
                     navigate('/');
                 });
-                // Redirect to the home page
             })
             .catch((error) => {
-                // Display error message
                 Swal.fire({
                     title: 'Error',
                     text: 'Login failed',

@@ -30,6 +30,4 @@ const StatusCol = ({ title, ticket, id, color }) => {
     );
 };
 
-
-
 export default StatusCol
