@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
@@ -41,29 +41,66 @@ const Login = () => {
     };
 
     return (
-        <div>
-            <Formik
-                initialValues={{
-                    username: '',
-                    password: '',
-                }}
-                validationSchema={validationSchema}
-                onSubmit={handleSubmit}
-            >
-                <Form>
-                    <div>
-                        <label htmlFor="username">Username:</label>
-                        <Field type="text" id="username" name="username" />
-                        <ErrorMessage name="username" component="div" />
-                    </div>
-                    <div>
-                        <label htmlFor="password">Password:</label>
-                        <Field type="password" id="password" name="password" />
-                        <ErrorMessage name="password" component="div" />
-                    </div>
-                    <Button type="submit">Submit</Button>
-                </Form>
-            </Formik>
+        <div
+            className='w-full h-screen flex justify-center items-center bg-gradient-to-r from-blue-500 to-blue-300'
+            style={{ minHeight: '100vh' }}
+        >
+            <div className='w-[35vw] bg-white' style={{ boxShadow: '10px 10px 2px 0px rgba(0,0,0,0.62)' }}>
+                <Formik
+                    initialValues={{
+                        username: '',
+                        password: '',
+                    }}
+                    validationSchema={validationSchema}
+                    onSubmit={handleSubmit}
+                >
+                    {({ errors, touched }) => (
+                        <Form>
+                            <div className='mx-5 my-20 flex flex-col gap-5'>
+                                <div className='text-center font-bold text-4xl py-10'>
+                                    Sign in
+                                </div>
+                                <div>
+                                    <Field
+                                        margin="dense"
+                                        label="Username"
+                                        type="text"
+                                        as={TextField}
+                                        id="username"
+                                        name="username"
+                                        variant="outlined"
+                                        fullWidth
+                                    />
+                                    {touched.username && errors.username ? (
+                                        <div className="text-red-500 text-sm">{errors.username}</div>
+                                    ) : null}
+                                    <Field
+                                        margin="dense"
+                                        label="Password"
+                                        type="password"
+                                        as={TextField}
+                                        id="password"
+                                        name="password"
+                                        variant="outlined"
+                                        fullWidth
+                                    />
+                                    {touched.password && errors.password ? (
+                                        <div className="text-red-500 text-sm">{errors.password}</div>
+                                    ) : null}
+                                </div>
+                                <div className='flex flex-col items-center gap-5'>
+                                    <Button type="submit" variant="contained" color="primary">SIGN IN</Button>
+                                    <div className='text-blue-400 text-center'>Forgot Password</div>
+                                </div>
+                                <div className='flex flex-row justify-between text-sm'>
+                                    <div>Customer Support</div>
+                                    <div>Don’t have an account? Sign Up</div>
+                                </div>
+                            </div>
+                        </Form>
+                    )}
+                </Formik>
+            </div>
         </div>
     );
 };

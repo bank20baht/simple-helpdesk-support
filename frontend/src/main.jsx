@@ -12,16 +12,19 @@ import {
 
 import Login from './pages/Login'
 import KanbanBoard from './components/KanbanBoard.jsx'
-
+import Register from './pages/Resister'
 const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
-    path: "/Login",
+    path: "/login",
     element: <Login />
   }, {
     path: "/",
     element: <KanbanBoard />
+  }, {
+    path: "/register",
+    element: <Register />
   }
 ]);
 
